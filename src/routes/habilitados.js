@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
   // no es application/json; simplemente no parsea y req.body queda undefined.
   // Por eso la verificación del Content-Type debe ser EXPLÍCITA y ANTES de
   // acceder a req.body.
-  if (req.is('application/json') !== 'application/json') {
+  if (!req.is('application/json')) {
     return res.status(400).json({ error: 'Content-Type debe ser application/json' });
   }
 

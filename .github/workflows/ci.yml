@@ -1,4 +1,4 @@
-name: CI
+﻿name: CI
 
 on:
   push:
@@ -22,3 +22,67 @@ jobs:
 
       - name: Ejecutar pruebas
         run: npm test
+
+      # Gate SCA: analisis de dependencias.
+      # - Umbral: HIGH (npm audit --audit-level=high).
+      # - Bloqueante: vulnerabilidades HIGH y CRITICAL hacen fallar el job
+      #   (npm audit devuelve exit code 1).
+      # - Severidades inferiores (moderate/low) se reportan pero no bloquean
+      #   (npm audit con --audit-level=high solo falla por high/critical).
+      # - Etapa: despues de instalar dependencias y correr las pruebas,
+      #   dentro del mismo job build.
+      - name: SCA - Analisis de dependencias (npm audit)
+        run: npm audit --audit-level=high
+
+  # Gate de secretos: Gitleaks
+  # - Herramienta: gitleaks/gitleaks-action@v2
+  # - Umbral: cualquier secreto detectado en el historial completo del repo.
+  # - Bloqueante: SI. Gitleaks devuelve exit code 1 si encuentra secretos,
+  #   lo que hace fallar el job inmediatamente.
+  # - Etapa: paralelo al job build (no depende de el).
+  # - fetch-depth: 0 necesario para que Gitleaks examine todo el historial
+  #   de commits, no solo el ultimo.
+  # - Los secretos detectados se reportan con la ubicacion del hallazgo pero
+  #   sin copiar el valor del secreto en los logs.
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout con historial completo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secretos - Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Gate SAST: analisis estatico con CodeQL
+  # - Herramienta: github/codeql-action v3 para JavaScript/TypeScript.
+  # - Umbral y decision: los hallazgos se publican como alertas en la pestana
+  #   "Security > Code scanning" del repositorio de GitHub. Por defecto NO
+  #   bloquean el pipeline automaticamente; para que bloqueen es necesario
+  #   activar una branch protection rule que exija el check "CodeQL" en verde.
+  #   Sin esa regla, CodeQL genera alertas visibles pero no falla el PR.
+  # - Justificacion: separar la visibilidad (alertas inmediatas en PR) del
+  #   bloqueo (decision del equipo mediante branch protection) permite
+  #   incorporar SAST de forma gradual sin paralizar el flujo de trabajo.
+  # - Etapa: paralelo al job build. Requiere permisos security-events: write
+  #   para publicar resultados SARIF en GitHub y contents: read para clonar.
+  # - El analisis de JavaScript no necesita paso de compilacion manual;
+  #   CodeQL infiere el grafo de llamadas directamente del codigo fuente.
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SAST - Inicializar CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: SAST - Analizar con CodeQL
+        uses: github/codeql-action/analyze@v3
