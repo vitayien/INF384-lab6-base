@@ -27,7 +27,7 @@ Con la entrada de ejemplo `{ "aprobados": ["1INF25", "1INF27", "1INF49"] }`, la 
 
 - AC-1: CUANDO el Sistema recibe una solicitud `POST /habilitados` con un cuerpo JSON válido que contiene un array `aprobados` de códigos de curso, EL SISTEMA DEBERÁ responder con HTTP 200 y un array JSON de objetos de curso para cada curso del Repositorio cuyo `id` no esté en `aprobados` y cuyos todos los prerequisitos estén presentes en `aprobados`; los cursos con array `prerequisites` vacío también son incluidos si su `id` no está en `aprobados`.
 
-- AC-2: CUANDO el Sistema recibe una solicitud `POST /habilitados` y un curso del Repositorio tiene un array `prerequisites` vacío y su `id` no está en `aprobados`, EL SISTEMA DEBERÁ incluir ese curso en el array de respuesta.
+- AC-2: CUANDO un curso del Repositorio tenga uno o más prerequisitos y al menos uno no esté presente en aprobados, EL SISTEMA DEBERÁ excluir ese curso del array de respuesta.
 
 - AC-3: CUANDO el Sistema recibe una solicitud `POST /habilitados` con `"aprobados": ["1INF25", "1INF27", "1INF49"]`, EL SISTEMA DEBERÁ retornar un array JSON que contenga exactamente 27 objetos de curso, incluyendo los cursos con ids `1INF29`, `1INF30`, `1INF31` y `1INF32`.
 
@@ -79,4 +79,4 @@ Con la entrada de ejemplo `{ "aprobados": ["1INF25", "1INF27", "1INF49"] }`, la 
 
 #### Acceptance Criteria
 
-- AC-13: CUANDO Jest es ejecutado con el flag `--coverage` sobre la suite de pruebas que incluye tests para `POST /habilitados`, EL SISTEMA DEBERÁ reportar un porcentaje de cobertura de líneas igual o mayor al 80% para los archivos que implementan la lógica del endpoint.
+- AC-13: CUANDO Jest se ejecuta con el flag --coverage, EL SISTEMA DEBERÁ reportar una cobertura global de líneas igual o mayor al 80 %.
