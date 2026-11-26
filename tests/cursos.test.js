@@ -70,3 +70,67 @@ describe('GET /cursos?ciclo=N – ciclo inválido (Req 1.3)', () => {
     });
   }
 });
+
+// ── Requisito 2.1 ───────────────────────────────────────────────────────────
+describe('GET /cursos/:codigo – curso existente (Req 2.1)', () => {
+  test('responde 200 con el detalle del curso', async () => {
+    const res = await request(app).get('/cursos/1INF30');
+    expect(res.status).toBe(200);
+    expect(res.body.id).toBe('1INF30');
+    expect(res.body.name).toBe('Programación 3');
+    expect(typeof res.body.credits).toBe('number');
+    expect(typeof res.body.cycle).toBe('number');
+    expect(typeof res.body.type).toBe('string');
+  });
+
+  test('incluye prerequisites como arreglo de objetos con id y name', async () => {
+    const res = await request(app).get('/cursos/1INF30');
+    expect(Array.isArray(res.body.prerequisites)).toBe(true);
+    expect(res.body.prerequisites.length).toBeGreaterThan(0);
+    for (const prereq of res.body.prerequisites) {
+      expect(typeof prereq.id).toBe('string');
+      expect(typeof prereq.name).toBe('string');
+    }
+  });
+
+  test('resuelve correctamente el nombre del requisito de 1INF30', async () => {
+    const res = await request(app).get('/cursos/1INF30');
+    expect(res.body.prerequisites).toEqual(
+      expect.arrayContaining([{ id: '1INF25', name: 'Programación 2' }])
+    );
+  });
+
+  test('devuelve prerequisites vacío para un curso sin requisitos', async () => {
+    const res = await request(app).get('/cursos/1INF25');
+    expect(res.status).toBe(200);
+    expect(res.body.prerequisites).toEqual([]);
+  });
+});
+
+// ── Requisito 2.2 ───────────────────────────────────────────────────────────
+describe('GET /cursos/:codigo – código inexistente (Req 2.2)', () => {
+  test('responde 404 con mensaje de error', async () => {
+    const res = await request(app).get('/cursos/XXX999');
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: 'curso no encontrado' });
+  });
+});
+
+// ── Requisito 3.1 – Middleware de errores ───────────────────────────────────
+describe('Middleware de errores (Req 3.1)', () => {
+  // Montamos una app con una ruta que lanza un error, antes del middleware,
+  // para disparar el manejador real de la aplicación.
+  const express = require('express');
+  const manejadorErrores = require('../src/middleware/errores');
+  const appError = express();
+  appError.get('/test-error', (req, res, next) => {
+    next(new Error('error de prueba'));
+  });
+  appError.use(manejadorErrores);
+
+  test('responde 500 con mensaje genérico ante un error no controlado', async () => {
+    const res = await request(appError).get('/test-error');
+    expect(res.status).toBe(500);
+    expect(res.body).toEqual({ error: 'error interno del servidor' });
+  });
+});

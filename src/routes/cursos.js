@@ -28,4 +28,35 @@ router.get('/', (req, res) => {
   res.json(repositorio.listar());
 });
 
+/**
+ * GET /cursos/:codigo
+ * Devuelve el detalle de un curso con sus requisitos resueltos (id + nombre).
+ *
+ * Requisitos: 2.1, 2.2
+ */
+router.get('/:codigo', (req, res) => {
+  const { codigo } = req.params;
+  const curso = repositorio.obtener(codigo);
+
+  // 2.2: código inexistente → 404
+  if (!curso) {
+    return res.status(404).json({ error: 'curso no encontrado' });
+  }
+
+  // 2.1: resolver el nombre de cada requisito
+  const prerequisites = (curso.prerequisites || []).map((id) => {
+    const req = repositorio.obtener(id);
+    return { id, name: req ? req.name : id };
+  });
+
+  res.json({
+    id: curso.id,
+    name: curso.name,
+    credits: curso.credits,
+    cycle: curso.cycle,
+    type: curso.type,
+    prerequisites,
+  });
+});
+
 module.exports = router;

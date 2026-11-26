@@ -13,4 +13,6 @@ app.get('/health', (req, res) => {
 
 app.use('/cursos', require('./routes/cursos'));
 
+app.use(require('./middleware/errores'));
+
 module.exports = app;

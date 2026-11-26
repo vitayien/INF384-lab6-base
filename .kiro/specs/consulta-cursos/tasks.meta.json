@@ -12,6 +12,30 @@
         "chatSessionId": "sess_256eb18f-9a0c-4b01-831f-0017f6ba98cd",
         "timestamp": 1795730519714
       }
+    ],
+    "2. Implementar `GET /cursos/:codigo`": [
+      {
+        "executionId": "5bf9b68b-eae2-4eeb-936d-ec9d7db50356",
+        "chatSessionId": "sess_d85655c4-3eb8-4480-bb11-aa00d2a2d265",
+        "timestamp": 1795730601869
+      },
+      {
+        "executionId": "5bf9b68b-eae2-4eeb-936d-ec9d7db50356",
+        "chatSessionId": "sess_d85655c4-3eb8-4480-bb11-aa00d2a2d265",
+        "timestamp": 1795730649258
+      }
+    ],
+    "3. Middleware de manejo de errores": [
+      {
+        "executionId": "bdfae6d9-2529-494d-8207-575019efb0bd",
+        "chatSessionId": "sess_4e32603b-5b48-44da-9809-ed64aa13b4e6",
+        "timestamp": 1795730719359
+      },
+      {
+        "executionId": "bdfae6d9-2529-494d-8207-575019efb0bd",
+        "chatSessionId": "sess_4e32603b-5b48-44da-9809-ed64aa13b4e6",
+        "timestamp": 1795730770736
+      }
     ]
   }
 }
