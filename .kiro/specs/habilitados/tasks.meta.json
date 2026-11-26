@@ -1,0 +1,319 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Revisar `src/app.js` (montaje de rutas, `express.json()` global, orden del middleware de errores), `src/routes/cursos.js` (patrón de router y validaciones) y `src/data/repositorio.js` (API `listar()`/`obterner`)": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733403873
+      },
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733409629
+      },
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733435467
+      }
+    ],
+    "1.2 Revisar `tests/cursos.test.js` y `jest.config.js` para adoptar el patrón de pruebas con supertest sobre `src/app`": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733404109
+      },
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733411766
+      },
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733437622
+      }
+    ],
+    "2.1 Crear `src/routes/habilitados.js` con el router y el handler `POST /`": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733404221
+      },
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733440237
+      },
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733472809
+      }
+    ],
+    "2.2 Implementar la verificación explícita de Content-Type y del cuerpo (AC-5), la presencia de la clave `aprobados` (AC-6), y el tipo array (AC-7)": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733404356
+      },
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733475208
+      },
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733488392
+      },
+      {
+        "executionId": "dbb6b1e2-0426-4cfa-9c7c-0c149eaaa38f",
+        "chatSessionId": "sess_4d78601c-2f65-42fd-b8fb-fc2335181c34",
+        "timestamp": 1795734242293
+      }
+    ],
+    "2.3 Implementar el límite de 100 elementos (AC-8) y la validación del formato de cada código (AC-9)": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733404505
+      },
+      {
+        "executionId": "dbb6b1e2-0426-4cfa-9c7c-0c149eaaa38f",
+        "chatSessionId": "sess_4d78601c-2f65-42fd-b8fb-fc2335181c34",
+        "timestamp": 1795734244226
+      }
+    ],
+    "3.1 Implementar `calcularHabilitados(aprobados)` como función privada en `src/routes/habilitados.js`, reutilizando `repositorio.listar()`": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733404644
+      },
+      {
+        "executionId": "d038f076-27ff-4332-99c9-f258701bd78f",
+        "chatSessionId": "sess_260ec508-a423-416a-b094-b403da36300d",
+        "timestamp": 1795734267390
+      },
+      {
+        "executionId": "d038f076-27ff-4332-99c9-f258701bd78f",
+        "chatSessionId": "sess_260ec508-a423-416a-b094-b403da36300d",
+        "timestamp": 1795734316673
+      }
+    ],
+    "3.2 Responder la lista filtrada con `res.json(habilitados)` (Content-Type `application/json` automático, campos según repositorio)": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733404770
+      },
+      {
+        "executionId": "d038f076-27ff-4332-99c9-f258701bd78f",
+        "chatSessionId": "sess_260ec508-a423-416a-b094-b403da36300d",
+        "timestamp": 1795734318559
+      },
+      {
+        "executionId": "d038f076-27ff-4332-99c9-f258701bd78f",
+        "chatSessionId": "sess_260ec508-a423-416a-b094-b403da36300d",
+        "timestamp": 1795734330546
+      }
+    ],
+    "3.3 Verificar en `data/cursos.json` que `1INF32` tiene prerequisitos `[\"1INF25\",\"1INF27\"]` para calibrar los casos de AC-2/AC-3": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733404890
+      },
+      {
+        "executionId": "d038f076-27ff-4332-99c9-f258701bd78f",
+        "chatSessionId": "sess_260ec508-a423-416a-b094-b403da36300d",
+        "timestamp": 1795734332629
+      },
+      {
+        "executionId": "d038f076-27ff-4332-99c9-f258701bd78f",
+        "chatSessionId": "sess_260ec508-a423-416a-b094-b403da36300d",
+        "timestamp": 1795734348277
+      }
+    ],
+    "4.1 Preponer la guarda de errores de parseo JSON en `src/middleware/errores.js`": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733405006
+      },
+      {
+        "executionId": "aa1a915d-7f2a-4202-a44f-5ebc6ac8fcf6",
+        "chatSessionId": "sess_723616c4-6ede-4c60-826b-56cceb246179",
+        "timestamp": 1795734423925
+      },
+      {
+        "executionId": "aa1a915d-7f2a-4202-a44f-5ebc6ac8fcf6",
+        "chatSessionId": "sess_723616c4-6ede-4c60-826b-56cceb246179",
+        "timestamp": 1795734450563
+      }
+    ],
+    "4.2 Montar la ruta en `src/app.js`": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733405133
+      },
+      {
+        "executionId": "aa1a915d-7f2a-4202-a44f-5ebc6ac8fcf6",
+        "chatSessionId": "sess_723616c4-6ede-4c60-826b-56cceb246179",
+        "timestamp": 1795734452755
+      },
+      {
+        "executionId": "aa1a915d-7f2a-4202-a44f-5ebc6ac8fcf6",
+        "chatSessionId": "sess_723616c4-6ede-4c60-826b-56cceb246179",
+        "timestamp": 1795734473075
+      }
+    ],
+    "5.1 Crear el archivo de pruebas con supertest sobre `src/app` (sin levantar servidor) y las pruebas del caso feliz": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733405367
+      },
+      {
+        "executionId": "7f5328a4-87f4-44fa-a440-9850fb812a8f",
+        "chatSessionId": "sess_93441897-0008-4157-abbb-e4641fcd5d5f",
+        "timestamp": 1795734541009
+      }
+    ],
+    "5.2 Pruebas del formato de la respuesta": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733405510
+      },
+      {
+        "executionId": "7f5328a4-87f4-44fa-a440-9850fb812a8f",
+        "chatSessionId": "sess_93441897-0008-4157-abbb-e4641fcd5d5f",
+        "timestamp": 1795734543008
+      }
+    ],
+    "5.3 Pruebas de validación de entrada (cada caso una sola vez)": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733405657
+      },
+      {
+        "executionId": "7f5328a4-87f4-44fa-a440-9850fb812a8f",
+        "chatSessionId": "sess_93441897-0008-4157-abbb-e4641fcd5d5f",
+        "timestamp": 1795734544739
+      }
+    ],
+    "5.4 Verificar que ningún body de error contiene stack traces ni rutas de archivos": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733405795
+      },
+      {
+        "executionId": "7f5328a4-87f4-44fa-a440-9850fb812a8f",
+        "chatSessionId": "sess_93441897-0008-4157-abbb-e4641fcd5d5f",
+        "timestamp": 1795734546549
+      }
+    ],
+    "6.1 Ejecutar `npx jest --run` y asegurar que todas las pruebas pasan (nuevas y existentes)": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733405938
+      },
+      {
+        "executionId": "bfdfd434-f881-4c1d-88e6-498da1739c9a",
+        "chatSessionId": "sess_34adabbb-586f-40ad-b338-fecea8714ed7",
+        "timestamp": 1795734557024
+      },
+      {
+        "executionId": "bfdfd434-f881-4c1d-88e6-498da1739c9a",
+        "chatSessionId": "sess_34adabbb-586f-40ad-b338-fecea8714ed7",
+        "timestamp": 1795734881095
+      }
+    ],
+    "6.2 Ejecutar `npx jest --coverage --run` y verificar cobertura global de líneas ≥ 80 %": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733406089
+      },
+      {
+        "executionId": "bfdfd434-f881-4c1d-88e6-498da1739c9a",
+        "chatSessionId": "sess_34adabbb-586f-40ad-b338-fecea8714ed7",
+        "timestamp": 1795734883095
+      },
+      {
+        "executionId": "bfdfd434-f881-4c1d-88e6-498da1739c9a",
+        "chatSessionId": "sess_34adabbb-586f-40ad-b338-fecea8714ed7",
+        "timestamp": 1795734932212
+      }
+    ],
+    "1. Inspección de la estructura y convenciones del proyecto": [
+      {
+        "executionId": "377427b4-7ef9-4145-b4e7-7fca81b3729a",
+        "chatSessionId": "sess_ce74ed3a-752b-471f-be6e-86493a409bb2",
+        "timestamp": 1795733437674
+      }
+    ],
+    "2. Crear la ruta `POST /habilitados` con validaciones de entrada": [
+      {
+        "executionId": "dbb6b1e2-0426-4cfa-9c7c-0c149eaaa38f",
+        "chatSessionId": "sess_4d78601c-2f65-42fd-b8fb-fc2335181c34",
+        "timestamp": 1795734163826
+      },
+      {
+        "executionId": "dbb6b1e2-0426-4cfa-9c7c-0c149eaaa38f",
+        "chatSessionId": "sess_4d78601c-2f65-42fd-b8fb-fc2335181c34",
+        "timestamp": 1795734236021
+      }
+    ],
+    "3. Implementar el algoritmo de cálculo de cursos habilitados": [
+      {
+        "executionId": "d038f076-27ff-4332-99c9-f258701bd78f",
+        "chatSessionId": "sess_260ec508-a423-416a-b094-b403da36300d",
+        "timestamp": 1795734265488
+      },
+      {
+        "executionId": "d038f076-27ff-4332-99c9-f258701bd78f",
+        "chatSessionId": "sess_260ec508-a423-416a-b094-b403da36300d",
+        "timestamp": 1795734348325
+      }
+    ],
+    "4. Integrar la ruta y el manejo de errores de parseo JSON": [
+      {
+        "executionId": "aa1a915d-7f2a-4202-a44f-5ebc6ac8fcf6",
+        "chatSessionId": "sess_723616c4-6ede-4c60-826b-56cceb246179",
+        "timestamp": 1795734421927
+      },
+      {
+        "executionId": "aa1a915d-7f2a-4202-a44f-5ebc6ac8fcf6",
+        "chatSessionId": "sess_723616c4-6ede-4c60-826b-56cceb246179",
+        "timestamp": 1795734473158
+      }
+    ],
+    "5. Implementar pruebas funcionales y de validación en `tests/habilitados.test.js`": [
+      {
+        "executionId": "7f5328a4-87f4-44fa-a440-9850fb812a8f",
+        "chatSessionId": "sess_93441897-0008-4157-abbb-e4641fcd5d5f",
+        "timestamp": 1795734484492
+      },
+      {
+        "executionId": "7f5328a4-87f4-44fa-a440-9850fb812a8f",
+        "chatSessionId": "sess_93441897-0008-4157-abbb-e4641fcd5d5f",
+        "timestamp": 1795734536522
+      }
+    ],
+    "6. Ejecutar las pruebas y verificar la cobertura": [
+      {
+        "executionId": "bfdfd434-f881-4c1d-88e6-498da1739c9a",
+        "chatSessionId": "sess_34adabbb-586f-40ad-b338-fecea8714ed7",
+        "timestamp": 1795734932303
+      }
+    ]
+  }
+}
