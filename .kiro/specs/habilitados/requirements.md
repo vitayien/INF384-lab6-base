@@ -69,7 +69,7 @@ Con la entrada de ejemplo `{ "aprobados": ["1INF25", "1INF27", "1INF49"] }`, la 
 
 #### Acceptance Criteria
 
-- AC-11: CUANDO el Sistema retorna una respuesta exitosa a `POST /habilitados`, EL SISTEMA DEBERÁ incluir en cada objeto de curso exactamente los campos `id` (string), `name` (string), `credits` (number, p. ej. 3.5 o 3.75), `cycle` (entero entre 5 y 10), `type` (string) y `prerequisites` (array de strings con los ids de los prerequisitos, tal como se almacenan en el Repositorio).
+- AC-11: CUANDO el Sistema retorna una respuesta exitosa a `POST /habilitados`, EL SISTEMA DEBERÁ incluir en cada objeto de curso exactamente los campos `id` (string), `name` (string), `credits` (number, p. ej. 3.5 o 3.75), `cycle` (entero entre 5 y 10 para cursos obligatorios, `null` para cursos electivos), `type` (string) y `prerequisites` (array de strings con los ids de los prerequisitos, tal como se almacenan en el Repositorio).
 
 - AC-12: CUANDO el Sistema retorna una respuesta exitosa a `POST /habilitados`, EL SISTEMA DEBERÁ establecer el encabezado de respuesta `Content-Type` a `application/json`.
 
@@ -80,3 +80,25 @@ Con la entrada de ejemplo `{ "aprobados": ["1INF25", "1INF27", "1INF49"] }`, la 
 #### Acceptance Criteria
 
 - AC-13: CUANDO Jest se ejecuta con el flag --coverage, EL SISTEMA DEBERÁ reportar una cobertura global de líneas igual o mayor al 80 %.
+
+### Requirement 7: Requisitos de seguridad
+
+**User Story:** Como operador del servicio, quiero que el endpoint rechace activamente entradas maliciosas y no exponga información interna, para proteger la disponibilidad y la confidencialidad del sistema.
+
+#### Acceptance Criteria
+
+Estos requisitos de seguridad están cubiertos por los criterios de aceptación existentes indicados (AC-5, AC-8, AC-9). No introducen nuevos criterios de aceptación; sirven como trazabilidad explícita de los hallazgos de seguridad del laboratorio.
+
+#### Security Requirements
+
+- **SR-1 — Abuso de recursos (DoS por array excesivo):**
+  CUANDO el array `aprobados` contiene más de 100 elementos, EL SISTEMA DEBERÁ responder con HTTP 400 y un cuerpo JSON `{ "error": "<mensaje genérico>" }` sin procesar el cálculo de habilitación.
+  _Cubierto por: AC-8. Verificado por: prueba de límite de 100 elementos en `tests/habilitados.test.js`._
+
+- **SR-2 — Entrada maliciosa en códigos de curso (inyección / caracteres no permitidos):**
+  CUANDO algún elemento del array `aprobados` no cumple el patrón `^[A-Za-z0-9]{6}$`, EL SISTEMA DEBERÁ responder con HTTP 400 y un mensaje de error estático que no refleje el contenido del código inválido ni exponga stack traces, rutas de archivos ni información interna del servidor.
+  _Cubierto por: AC-9. Verificado por: prueba de código `1INF30<script>` en `tests/habilitados.test.js`._
+
+- **SR-3 — Exposición de información interna (Content-Type incorrecto o JSON inválido):**
+  CUANDO el encabezado `Content-Type` no es `application/json` o el cuerpo de la solicitud no es JSON válido, EL SISTEMA DEBERÁ responder con HTTP 400 y un mensaje genérico que no contenga stack traces, rutas de archivos del sistema ni información interna del servidor.
+  _Cubierto por: AC-5. Verificado por: prueba de Content-Type `text/plain` y body no parseable en `tests/habilitados.test.js`._
