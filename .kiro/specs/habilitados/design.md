@@ -388,3 +388,41 @@ Ejecutar `jest --coverage` y verificar que la cobertura global de líneas sea �
 *Para cualquier* array `aprobados` válido, cada objeto en el array de respuesta debe contener exactamente los campos `id` (string), `name` (string), `credits` (number), `cycle` (entero 5–10 o `null` para electivos), `type` (string) y `prerequisites` (array de strings). (Cubre AC-11)
 
 **Validates: Requirements 5.1**
+
+
+## Security Gates and Pipeline Decisions
+
+El pipeline de CI implementa dos gates de seguridad obligatorios: SCA (análisis de dependencias) y detección de secretos con Gitleaks. Adicionalmente, incorpora SAST mediante CodeQL como análisis estático informativo.
+
+### Gate 1: SCA – Análisis de dependencias
+
+- **Herramienta:** `npm audit`.
+- **Umbral:** HIGH y CRITICAL.
+- **Decisión:** Bloqueante. Si se detecta una vulnerabilidad de severidad HIGH o CRITICAL, `npm audit` devuelve un código de salida distinto de cero y el job `build` falla. Las vulnerabilidades de severidad LOW y MODERATE se reportan, pero no bloquean la ejecución.
+- **Etapa:** Se ejecuta en el job `build`, después de instalar las dependencias con `npm ci` y ejecutar las pruebas con `npm test`.
+- **Justificación:** Las dependencias vulnerables pueden introducir riesgos de seguridad en la aplicación. El umbral HIGH evita aceptar vulnerabilidades graves o críticas, mientras permite conocer y evaluar las de menor severidad sin detener automáticamente el desarrollo.
+
+### Gate 2: Detección de secretos – Gitleaks
+
+- **Herramienta:** `gitleaks/gitleaks-action@v2`.
+- **Umbral:** Cualquier secreto detectado en el historial del repositorio.
+- **Decisión:** Bloqueante. Si Gitleaks detecta un secreto, el job `secrets` falla y la ejecución del workflow queda marcada como fallida.
+- **Etapa:** Se ejecuta en un job independiente, en paralelo al job `build`. Se utiliza `actions/checkout@v4` con `fetch-depth: 0` para analizar el historial completo de commits y no solamente el último.
+- **Justificación:** La publicación accidental de claves, tokens o credenciales puede comprometer servicios y cuentas. Por eso, cualquier secreto detectado debe impedir que la integración se considere exitosa. Analizar todo el historial permite detectar secretos introducidos en commits anteriores.
+
+### Análisis adicional: SAST – CodeQL
+
+- **Herramienta:** `github/codeql-action` versión 3.
+- **Umbral:** Hallazgos de seguridad identificados por el análisis estático del código JavaScript.
+- **Decisión:** Informativa, no bloqueante de forma predeterminada. CodeQL publica los resultados como alertas en GitHub, en `Security > Code scanning`. Para convertirlo en bloqueante se requiere configurar una regla de protección de rama que exija el check correspondiente.
+- **Etapa:** Se ejecuta en un job independiente, en paralelo a `build`.
+- **Justificación:** El análisis estático permite identificar posibles vulnerabilidades en el código sin necesidad de ejecutar la aplicación. Mantenerlo informativo inicialmente facilita revisar y corregir los hallazgos sin detener automáticamente el flujo de integración. Puede hacerse obligatorio posteriormente mediante protección de ramas.
+
+### Resumen de decisiones
+
+| Gate | Umbral | ¿Bloquea? | Etapa |
+|---|---|---|---|
+| SCA – npm audit | HIGH y CRITICAL | Sí | Después de las pruebas, en `build` |
+| Gitleaks | Cualquier secreto detectado | Sí | Job independiente, paralelo a `build` |
+| SAST – CodeQL | Hallazgos de seguridad | No, por defecto | Job independiente, paralelo a `build` |
+
